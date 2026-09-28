@@ -1,16 +1,13 @@
 # ayang-docker
 
-ThinkPHP6 后台 Docker 部署包（Nginx + PHP-FPM 7.4 + 定时任务）。
+ThinkPHP6 后台 Docker 一键部署包。
 
-- **完整流程** → [DEPLOY.md](./DEPLOY.md)
-- **一键脚本** → [scripts/bootstrap.sh](./scripts/bootstrap.sh)
-- **推镜像** → [scripts/publish-image.sh](./scripts/publish-image.sh)
-
-## 新 VPS 最短命令（全自动）
+**完整说明 → [DEPLOY.md](./DEPLOY.md)**
 
 ```bash
-export GH_TOKEN=... GITHUB_OWNER=... DB_PASS=...
-bash bootstrap.sh --owner "$GITHUB_OWNER" --with-mysql --sql-file /root/xinayang.sql.gz
+export GH_TOKEN=... DB_PASS=...
+bash <(curl -fsSL -H "Authorization: token $GH_TOKEN" \
+  https://raw.githubusercontent.com/mimaweimahan/ayang-docker/main/scripts/bootstrap.sh) --with-mysql
 ```
 
-详见 DEPLOY.md。切勿把 `.env`、数据库密码、七牛密钥提交进仓库。
+切勿提交 `.env`、真实密码、七牛密钥。

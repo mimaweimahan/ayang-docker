@@ -21,7 +21,7 @@ services:
       retries: 40
 
   ayang:
-    image: ${AYANG_IMAGE:-ghcr.io/mimaweimahan/ayang-app:latest}
+    image: ${AYANG_IMAGE:-ayang-app:latest}
     container_name: ayang-app
     restart: unless-stopped
     depends_on:
