@@ -1,5 +1,11 @@
 # ayang 新 VPS 部署流程
 
+> **当前仓库实际状态（2026-09-29）**  
+> - 代码已推送：[mimaweimahan/ayang-docker](https://github.com/mimaweimahan/ayang-docker)  
+> - 镜像包在 Release `latest` 资产：`ayang-app-latest.tar.gz`（约 876MB）  
+> - 因 Token 无 `write:packages`，暂未推 GHCR；`bootstrap.sh` 会在 pull 失败时自动改下 Release 包。  
+> - 仓库目前是 **Public**，建议改为 Private。  
+
 应用镜像推到 **GitHub Container Registry (ghcr.io)**，代码与编排进 **私有 GitHub 仓库**。  
 数据库密码、七牛密钥 **永不入库**。
 
