@@ -1,0 +1,12 @@
+# 对齐源站宝塔计划任务（业务相关）
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# 每天 12:01 重置订单（源站：qq qq）
+1 12 * * * www-data cd /var/www/ayang && /usr/local/bin/php cron_reset_orders.php >> /var/www/ayang/runtime/cron_reset_orders.log 2>&1
+
+# 每天 12:30 备份数据库（源站：备份MySQL；本地保留 2 份，见 backup_db.sh）
+30 12 * * * root /var/www/ayang/docker/scripts/backup_db.sh
+
+# 每天 01:30 清理日志（源站：ql；容器内清应用/Nginx 日志）
+30 1 * * * root /var/www/ayang/docker/scripts/ql_clean_logs.sh

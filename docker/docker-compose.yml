@@ -1,0 +1,30 @@
+# 现网：应用容器 + 宿主机 aaPanel MySQL（host 网络）
+services:
+  ayang:
+    image: ${AYANG_IMAGE:-ayang-app:latest}
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: ayang-app
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      DB_HOST: "127.0.0.1"
+      DB_PORT: "3306"
+      DB_NAME: "xinayang"
+      DB_USER: "xinayang"
+      DB_PASS: "${DB_PASS:?请设置 DB_PASS}"
+      APP_DEBUG: "false"
+      DEFAULT_TIMEZONE: "America/New_York"
+      FRONTEND_INVITE_BASE: "${FRONTEND_INVITE_BASE:-}"
+      WAIT_FOR_DB: "${WAIT_FOR_DB:-1}"
+      BACKUP_KEEP: "${BACKUP_KEEP:-2}"
+    volumes:
+      - ayang_uploads:/var/www/ayang/public/uploads
+      - ayang_runtime:/var/www/ayang/runtime
+      - ayang_db_backup:/var/www/ayang/runtime/backup
+
+volumes:
+  ayang_uploads:
+  ayang_runtime:
+  ayang_db_backup:

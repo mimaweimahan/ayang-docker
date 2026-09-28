@@ -1,0 +1,52 @@
+# 新 VPS 全自动：应用 + MySQL（bridge）
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: ayang-mysql
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:?set MYSQL_ROOT_PASSWORD}"
+      MYSQL_DATABASE: xinayang
+      MYSQL_USER: xinayang
+      MYSQL_PASSWORD: "${DB_PASS:?set DB_PASS}"
+    volumes:
+      - ayang_mysql_data:/var/lib/mysql
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+  ayang:
+    image: ${AYANG_IMAGE:-ghcr.io/OWNER/ayang-app:latest}
+    container_name: ayang-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_NAME: xinayang
+      DB_USER: xinayang
+      DB_PASS: "${DB_PASS:?set DB_PASS}"
+      APP_DEBUG: "false"
+      DEFAULT_TIMEZONE: "America/New_York"
+      FRONTEND_INVITE_BASE: "${FRONTEND_INVITE_BASE:-}"
+      WAIT_FOR_DB: "1"
+      BACKUP_KEEP: "${BACKUP_KEEP:-2}"
+    ports:
+      - "${HTTP_PORT:-8088}:8088"
+    volumes:
+      - ayang_uploads:/var/www/ayang/public/uploads
+      - ayang_runtime:/var/www/ayang/runtime
+      - ayang_db_backup:/var/www/ayang/runtime/backup
+
+volumes:
+  ayang_mysql_data:
+  ayang_uploads:
+  ayang_runtime:
+  ayang_db_backup:

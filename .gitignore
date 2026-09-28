@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+docker/.env.docker
+runtime/
+public/uploads/
+public/tmp/
+database/backup/
+*.log
+*.tar.gz
+.idea/
+.vscode/
+.DS_Store
+*.tar.gz
+.htpasswd
+tmp_restore/
