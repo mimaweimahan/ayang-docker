@@ -2,8 +2,8 @@
 # ayang 新 VPS 一键部署
 set -euo pipefail
 
-OWNER="${GITHUB_OWNER:-OWNER}"
-REPO="${GITHUB_REPO:-ayang-deploy}"
+OWNER="${GITHUB_OWNER:-mimaweimahan}"
+REPO="${GITHUB_REPO:-ayang-docker}"
 BRANCH="${GITHUB_BRANCH:-main}"
 APP_DIR="${APP_DIR:-/www/wwwroot/ayang-docker}"
 AYANG_IMAGE="${AYANG_IMAGE:-ghcr.io/${OWNER}/ayang-app:latest}"
@@ -23,7 +23,7 @@ usage() {
   --app-dir PATH        部署目录（默认 /www/wwwroot/ayang-docker）
   --image REF           镜像（默认 ghcr.io/$GITHUB_OWNER/ayang-app:latest）
   --owner NAME          GitHub 用户或组织名
-  --repo NAME           仓库名（默认 ayang-deploy）
+  --repo NAME           仓库名（默认 ayang-docker）
   -h, --help            帮助
 USAGE
 }

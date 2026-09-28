@@ -26,7 +26,7 @@ GitHub → Settings → Developer settings → Personal access tokens
 ```bash
 export GH_TOKEN='github_pat_xxx'
 export GITHUB_OWNER='你的GitHub用户名'
-export GITHUB_REPO='ayang-deploy'
+export GITHUB_REPO='ayang-docker'
 export GITHUB_USER="$GITHUB_OWNER"
 ```
 
@@ -35,7 +35,7 @@ export GITHUB_USER="$GITHUB_OWNER"
 在已整理好的部署目录（本仓库）执行：
 
 ```bash
-cd /path/to/ayang-deploy
+cd /path/to/ayang-docker
 git init -b main
 git add -A
 git status   # 确认无 .env / 密码 / tar.gz
@@ -83,7 +83,7 @@ export DB_PASS='请设一个强密码'
 export MYSQL_ROOT_PASSWORD='再设一个强密码'   # 可省略，将与 DB_PASS 相同
 
 # 把 xinayang.sql.gz 先 scp 到新机，例如 /root/xinayang.sql.gz
-curl -fsSL -H "Authorization: token $GH_TOKEN"   "https://raw.githubusercontent.com/$GITHUB_OWNER/ayang-deploy/main/scripts/bootstrap.sh"   -o /tmp/bootstrap.sh
+curl -fsSL -H "Authorization: token $GH_TOKEN"   "https://raw.githubusercontent.com/$GITHUB_mimaweimahan/ayang-docker/main/scripts/bootstrap.sh"   -o /tmp/bootstrap.sh
 chmod +x /tmp/bootstrap.sh
 
 bash /tmp/bootstrap.sh   --owner "$GITHUB_OWNER"   --with-mysql   --sql-file /root/xinayang.sql.gz
@@ -131,7 +131,7 @@ docker compose -f docker/docker-compose.yml --env-file docker/.env.docker up -d
 | 内容 | 位置 |
 |------|------|
 | 应用镜像 | `ghcr.io/<OWNER>/ayang-app:latest`（+ 可选 Release tar） |
-| 代码/编排 | GitHub 私有仓 `ayang-deploy` |
+| 代码/编排 | GitHub 私有仓 `ayang-docker` |
 | 数据库 | 现网：七牛 + 容器本地 volume；全自动模式：MySQL volume `ayang_mysql_data` |
 | 上传文件 | Docker volume `ayang_uploads` |
 

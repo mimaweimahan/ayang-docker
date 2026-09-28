@@ -2,7 +2,7 @@
 # 推送镜像到 GHCR（可选 Release tar）
 set -euo pipefail
 OWNER="${GITHUB_OWNER:?请设置 GITHUB_OWNER}"
-REPO="${GITHUB_REPO:-ayang-deploy}"
+REPO="${GITHUB_REPO:-ayang-docker}"
 IMAGE_LOCAL="${IMAGE_LOCAL:-ayang-app:latest}"
 IMAGE_REMOTE="ghcr.io/${OWNER}/ayang-app:latest"
 TAG_DATE=$(date +%Y%m%d)

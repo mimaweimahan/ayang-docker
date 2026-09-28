@@ -1,4 +1,4 @@
-# ayang-deploy
+# ayang-docker
 
 ThinkPHP6 后台 Docker 部署包（Nginx + PHP-FPM 7.4 + 定时任务）。
 
