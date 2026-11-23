@@ -64,12 +64,17 @@ class System extends Base
                 $data['password'] = md5($data['password']);
             } else {
                 unset($data['password']);
-                if (empty($data['role_id']))
-                    $this->result(200, '操作成功');
             }
             $res = false;
-            if ($admin_id){ 
+            if ($admin_id){ /* manageUsername-fix */
+                if (!empty($data['username'])) {
+                    $dup = $mod->where(['username' => $data['username']])->where('id', '<>', $admin_id)->count();
+                    if ($dup)
+                        $this->result(403, '用户名已经存在，请更改用户名');
+                }
                 $res = $mod->update($data, ['id' => $admin_id]);
+                if ($res === 0)
+                    $res = true;
             }else {
                 $c = $mod->where(['username' => $data['username']])->count();
                 if ($c){
