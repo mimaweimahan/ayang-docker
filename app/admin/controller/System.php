@@ -132,6 +132,31 @@ class System extends Base
             $this->result(500, '操作失败');
     }
 
+    //管理员删除
+    public function manageDelete()
+    {
+        $id = input('post.id', 0);
+        if (empty($id))
+            $this->result(404, '参数有误');
+        if ((int)$id === 1)
+            $this->result(403, '超级管理员不可删除');
+        $adminInfo = session('adminInfo');
+        $selfId = intval($adminInfo['id'] ?? 0);
+        if ($selfId && (int)$id === $selfId)
+            $this->result(403, '不能删除当前登录管理员');
+        $mod = new Admin();
+        $info = $mod->find($id);
+        if (empty($info))
+            $this->result(400, '用户不存在');
+        $res = $mod->where(['id' => $id])->delete();
+        if ($res) {
+            admin_log('删除管理员', $info);
+            $this->result(200, '删除成功');
+        } else {
+            $this->result(500, '操作失败');
+        }
+    }
+
     //角色列表
     public function groupList()
     {

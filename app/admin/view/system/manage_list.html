@@ -63,6 +63,12 @@
                                    onclick="xadmin.open('编辑','{:url(\'admin/System/manageAdd\',[\'id\'=>$vo[\'id\']])}',600,350)">
                                     编辑
                                 </a>
+                                {if condition="$vo['id'] neq 1"}
+                                <a href="javascript:;" class="layui-btn layui-btn-danger layui-btn-mini"
+                                   onclick="manage_delete('{$vo.id}')">
+                                    删除
+                                </a>
+                                {/if}
                             </td>
                         </tr>
                         {/foreach}
@@ -99,6 +105,29 @@
                             $(obj).text('启用');
                             $(obj).parents('tr').find(".td-status").text('已禁用');
                         }
+                    } else {
+                        tipAction(2, res.msg);
+                    }
+                },
+                error: function () {
+                    tipAction(2, '系统繁忙');
+                }
+            });
+        });
+    }
+
+    /*管理员-删除*/
+    function manage_delete(id) {
+        layer.confirm('确认删除该管理员吗？删除后不可恢复', function (index) {
+            $.ajax({
+                url: '{:url("admin/System/manageDelete")}',
+                type: 'post',
+                data: {'id': id},
+                dataType: 'json',
+                success: function (res) {
+                    if (res.status == '200') {
+                        tipAction(1, res.msg);
+                        location.reload();
                     } else {
                         tipAction(2, res.msg);
                     }

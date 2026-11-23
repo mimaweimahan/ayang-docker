@@ -27,6 +27,11 @@ return [
                             'url' => '/admin/System/manageDisable',
                             'is_open' => 0
                         ],
+                        [
+                            'name' => '管理员删除',
+                            'url' => '/admin/System/manageDelete',
+                            'is_open' => 0
+                        ],
                     ]
                 ],
                 [
